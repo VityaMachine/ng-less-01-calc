@@ -1,0 +1,75 @@
+<div class="wrapper">
+  <div class="calculator">
+    <h2 class="calculator__title">Calculator</h2>
+    <div class="calculator__container">
+      <ng-container *ngFor="let calcItem of calcItemsArr; let i = index">
+        <div>
+          <select
+            class="calculator__select-modifier"
+            [(ngModel)]="calcItem.modifier"
+          >
+            <option
+              *ngFor="let modifier of calcModifiers | keyvalue"
+              [value]="modifier.value"
+            >
+              {{ modifier.value }}
+            </option>
+          </select>
+
+          <input
+            type="number"
+            class="calculator__input"
+            [(ngModel)]="calcItem.value"
+          />
+          <button *ngIf="i <= 1" disabled class="calculator__remove">
+            del
+          </button>
+          <button
+            *ngIf="i > 1"
+            class="calculator__remove"
+            (click)="removeCalcValue(i)"
+          >
+            del
+          </button>
+        </div>
+
+        <select
+          class="calculator__select"
+          *ngIf="calcOperationsArr.length > i"
+          [(ngModel)]="calcOperationsArr[i]"
+        >
+          <option
+            *ngFor="let operation of calcOperations | keyvalue"
+            [value]="operation.value"
+          >
+            {{ operation.value }}
+          </option>
+        </select>
+      </ng-container>
+
+      <span class="calculator__result">
+        Result:
+        <span>
+          {{ result ? result : 0 }}
+        </span>
+      </span>
+
+      <button class="calculator__button" (click)="addCalcVar()">
+        Add value
+      </button>
+      <button class="calculator__button" (click)="calc()">Calculate</button>
+    </div>
+  </div>
+  <div class="history">
+    <h2 class="history__title">Operations history</h2>
+
+    <ul class="history__list">
+      <li
+        class="history__list-item"
+        *ngFor="let item of operationsHistory; let i = index"
+      >
+        {{ i + 1 }}: {{ item }}
+      </li>
+    </ul>
+  </div>
+</div>
